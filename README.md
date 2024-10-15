@@ -1,8 +1,4 @@
-Here is a README file for your FastAPI application:
-
----
-
-# Bot Behavior Detection API
+# Smart Captch API
 
 This FastAPI-based application detects if interactions with a website are coming from a human or a bot, based on mouse and keyboard behavior. It also uses browser information and device fingerprints to assess if the client is automated or previously blacklisted.
 
