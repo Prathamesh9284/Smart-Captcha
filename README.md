@@ -107,9 +107,6 @@ curl -X POST "http://127.0.0.1:8000/predict_behavior" \
 -F "fingerprint=abc123"
 ```
 
-
-This project is licensed under the MIT License.
-
 ---
 
 This README should guide users on how to set up, run, and test the application.
