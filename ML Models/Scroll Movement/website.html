@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Movement Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 200vh; /* Large height to make scrolling possible */
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 300px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Login Form</h2>
+    <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<script>
+    let scrollData = [];
+    let lastScrollTime = 0;
+    let lastScrollPosition = window.scrollY;
+
+    // Capture scroll events
+    window.addEventListener('scroll', function() {
+        let currentPosition = window.scrollY;
+        let currentTime = new Date().getTime();
+
+        // Calculate speed (distance moved / time elapsed)
+        let distanceMoved = Math.abs(currentPosition - lastScrollPosition);
+        let timeElapsed = currentTime - lastScrollTime;
+        let speed = timeElapsed > 0 ? distanceMoved / timeElapsed : 0;
+
+        // Store scroll data
+        scrollData.push({
+            position: currentPosition,
+            speed: speed,
+            timestamp: currentTime
+        });
+
+        // Update last position and time
+        lastScrollPosition = currentPosition;
+        lastScrollTime = currentTime;
+    });
+
+    // Convert scroll data to CSV format
+    function downloadCSV() {
+        const csvRows = [
+            ['position', 'speed', 'timestamp'],  // CSV headers
+            ...scrollData.map(row => [row.position, row.speed, row.timestamp].join(','))
+        ];
+        const csvContent = csvRows.join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+
+        // Create a temporary link to trigger download
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'scroll_data.csv';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // Handle form submission
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent actual form submission
+
+        // Download CSV data on form submit
+        downloadCSV();
+
+        // You can add additional logic here to actually submit the form data
+        alert('Scroll data has been captured and downloaded as CSV.');
+    });
+</script>
+
+</body>
+</html>
