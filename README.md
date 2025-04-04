@@ -29,7 +29,14 @@ pip install fastapi uvicorn firebase-admin joblib pandas numpy
 
 ## Setup
 
-1. **Start the Server**:
+1. **Move to the App Directory**:
+   - Move to the directory using cd:
+   
+   ```bash
+   cd app
+   ```
+
+2. **Start the Server**:
    - Run the FastAPI server using Uvicorn:
    
    ```bash
